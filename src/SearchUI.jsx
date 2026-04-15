@@ -1,5 +1,14 @@
 import { useEffect, useState } from 'react';
 
+const buttonStyle = {
+  color: 'darkgreen',
+  fontSize: 15,
+  fontWeight: 'bold',
+  backgroundColor: 'beige',
+  padding: 10,
+  margin: 5,
+};
+
 function SearchUI() {
   const [searchTerm, setSearchTerm] = useState('');
   const [products, setProducts] = useState([]);
@@ -59,11 +68,18 @@ function SearchUI() {
         }}
       >
         {products.map((item) => (
-          <li key={item.id} style={{ border: '2px dotted green', padding: 10 }}>
-            {item.title}
+          <li
+            key={item.id}
+            style={{
+              border: '2px dotted green',
+              padding: 10,
+            }}
+          >
+            <h3>{item.title}</h3>
             <img src={item.images[0]} style={{ height: 100 }} />
-            <button>Lägg i kundvagn</button>
-            <button>Favoritmarkera</button>
+            <p style={{ width: 300 }}>{item.description}</p>
+            <button style={buttonStyle}>Favoritmarkera</button>
+            <button style={buttonStyle}>Lägg i kundvagn</button>
           </li>
         ))}
       </ul>
