@@ -1,18 +1,20 @@
 import { useEffect, useState } from 'react';
+import Card from './Card.jsx';
 
-const buttonStyle = {
+/*const buttonStyle = {
   color: 'darkgreen',
   fontSize: 15,
   fontWeight: 'bold',
   backgroundColor: 'beige',
   padding: 10,
   margin: 5,
-};
+};*/
 
 function SearchUI() {
   const [searchTerm, setSearchTerm] = useState('');
   const [products, setProducts] = useState([]);
   const [isFetched, setIsFetched] = useState(false); //för att undvika anrop vid omladdning eller tomt sökfält
+  const [cart, setCart] = useState([]);
 
   const handleChange = (e) => {
     setSearchTerm(e.target.value);
@@ -21,6 +23,10 @@ function SearchUI() {
     } else {
       setIsFetched(true);
     }
+  };
+
+  const addItemToCart = (item) => {
+    setCart((prev) => [...prev, item]);
   };
 
   useEffect(() => {
@@ -68,21 +74,24 @@ function SearchUI() {
         }}
       >
         {products.map((item) => (
-          <li
+          <Card
             key={item.id}
-            style={{
-              border: '2px dotted green',
-              padding: 10,
-            }}
-          >
-            <h3>{item.title}</h3>
-            <img src={item.images[0]} style={{ height: 100 }} />
-            <p style={{ width: 300 }}>{item.description}</p>
-            <button style={buttonStyle}>Favoritmarkera</button>
-            <button style={buttonStyle}>Lägg i kundvagn</button>
-          </li>
+            id={item.id}
+            title={item.title}
+            src={item.images[0]}
+            description={item.description}
+            onClickCart={addItemToCart}
+          />
         ))}
       </ul>
+      <p>
+        Min kundvagn:{' '}
+        {cart.map((item) => (
+          <span key={item.id} style={{ margin: 5 }}>
+            {item.title}
+          </span>
+        ))}
+      </p>
     </div>
   );
 }
